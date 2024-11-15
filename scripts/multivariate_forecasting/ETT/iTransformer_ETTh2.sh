@@ -1,36 +1,22 @@
-export CUDA_VISIBLE_DEVICES=1
+# export CUDA_VISIBLE_DEVICES=1
 
 model_name=iTransformer
 
-python -u run.py \
-  --is_training 1 \
-  --root_path ./dataset/ETT-small/ \
-  --data_path ETTh2.csv \
-  --model_id ETTh2_96_96 \
-  --model $model_name \
-  --data ETTh2 \
-  --features M \
-  --seq_len 96 \
-  --pred_len 96 \
-  --e_layers 2 \
-  --enc_in 7 \
-  --dec_in 7 \
-  --c_out 7 \
-  --des 'Exp' \
-  --d_model 128 \
-  --d_ff 128 \
-  --itr 1
+for pred_len in 24 36 48 96 192
+do
+
+model_id=ETTh2_96_${pred_len}
 
 python -u run.py \
   --is_training 1 \
   --root_path ./dataset/ETT-small/ \
   --data_path ETTh2.csv \
-  --model_id ETTh2_96_192 \
+  --model_id $model_id \
   --model $model_name \
   --data ETTh2 \
   --features M \
   --seq_len 96 \
-  --pred_len 192 \
+  --pred_len $pred_len \
   --e_layers 2 \
   --enc_in 7 \
   --dec_in 7 \
@@ -38,42 +24,7 @@ python -u run.py \
   --des 'Exp' \
   --d_model 128 \
   --d_ff 128 \
-  --itr 1
+  --itr 1 \
+  2>&1 | tee -a logs/$model_id.log
 
-python -u run.py \
-  --is_training 1 \
-  --root_path ./dataset/ETT-small/ \
-  --data_path ETTh2.csv \
-  --model_id ETTh2_96_336 \
-  --model $model_name \
-  --data ETTh2 \
-  --features M \
-  --seq_len 96 \
-  --pred_len 336 \
-  --e_layers 2 \
-  --enc_in 7 \
-  --dec_in 7 \
-  --c_out 7 \
-  --des 'Exp' \
-  --d_model 128 \
-  --d_ff 128 \
-  --itr 1
-
-python -u run.py \
-  --is_training 1 \
-  --root_path ./dataset/ETT-small/ \
-  --data_path ETTh2.csv \
-  --model_id ETTh2_96_720 \
-  --model $model_name \
-  --data ETTh2 \
-  --features M \
-  --seq_len 96 \
-  --pred_len 720 \
-  --e_layers 2 \
-  --enc_in 7 \
-  --dec_in 7 \
-  --c_out 7 \
-  --des 'Exp' \
-  --d_model 128 \
-  --d_ff 128 \
-  --itr 1
+done
