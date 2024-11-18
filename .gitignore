@@ -134,4 +134,5 @@ dataset/
 checkpoints/
 results/
 test_results/
+logs/
 result*.txt
