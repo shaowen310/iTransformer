@@ -16,6 +16,10 @@ data_dict = {
 def data_provider(args, flag):
     Data = data_dict[args.data]
     timeenc = 0 if args.embed != 'timeF' else 1
+    if flag == 'train':
+        percent = args.percent
+    else:
+        percent = 100
 
     if flag == 'test':
         shuffle_flag = False
@@ -43,6 +47,7 @@ def data_provider(args, flag):
         target=args.target,
         timeenc=timeenc,
         freq=freq,
+        percent=percent,
     )
     print(flag, len(data_set))
     data_loader = DataLoader(
