@@ -5,6 +5,15 @@ from experiments.exp_long_term_forecasting_partial import Exp_Long_Term_Forecast
 import random
 import numpy as np
 
+
+def param_num(self):
+    return sum([param.nelement() for param in self.parameters()])
+
+
+def count_trainable_params(self):
+    return sum(p.numel() for p in self.parameters() if p.requires_grad)
+
+
 if __name__ == '__main__':
     fix_seed = 2023
     random.seed(fix_seed)
@@ -129,6 +138,10 @@ if __name__ == '__main__':
                 args.class_strategy, ii)
 
             exp = Exp(args)  # set experiments
+            
+            print("The number of parameters: {}".format(param_num(exp.model)))
+            print("The number of trainable parameters: {}".format(count_trainable_params(exp.model)))
+            
             print('>>>>>>>start training : {}>>>>>>>>>>>>>>>>>>>>>>>>>>'.format(setting))
             exp.train(setting)
 
