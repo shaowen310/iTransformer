@@ -2,7 +2,10 @@
 
 model_name=iTransformer
 
+batch_size=32
+
 for pred_len in 24 36 48 96 192
+# for pred_len in 96
 do
 
 model_id=ETTm2_96_${pred_len}
@@ -24,6 +27,7 @@ python -u run.py \
   --des 'Exp' \
   --d_model 128 \
   --d_ff 128 \
+  --batch_size $batch_size \
   --itr 1 \
   2>&1 | tee -a logs/$model_id.log
 
